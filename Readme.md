@@ -1,10 +1,24 @@
 # MA-enriched-Health-Data
 
-> This repo holds an enriched Health Data composed of multiple dataset publications enriched with profile data in close alginment with learned distributions.
+> This repo holds an enriched Health Data composed of multiple dataset publications enriched with profile data in close alignment with learned distributions.
 
 Nowadays, data processing becomes more and more common. To enable testing, evaluation and development of data driven applications, this repository holds a script to generate large scale and high dimensional data sets which are created in close alignment with public data sets esp. their data distribution.
 
 An examplary usage can be to evaluate new anonymization techniques which rely on non-anonymized data. Since nobody wants his PII data published, this fake but realistic data may be used to assess and evaluate such use cases.
+
+## Table of Contents
+- Composition
+  - CRM Attributes
+    - CRM Attributes
+    - Example Values
+  - Behavioral/Medical Attributes
+    - CRM Attributes
+    - Example Values
+    - Sources
+- Related Links & Other Datasets
+- Distributions
+  - Structural Overview
+  - Attribute Value Distributions
 
 ## Composition
 The following chapter shall briefly list and describe the include attributes for a single data record, including its source, type and distribution. All attributes shall be presented with examples.
@@ -12,7 +26,7 @@ The following chapter shall briefly list and describe the include attributes for
 ### CRM Attributes
 
 The CRM attribute values originate from [fakenamegenerator.com](http://www.fakenamegenerator.com/), which provides
-* in sum 487 million different region-sensitive names (108 million male names, 3879 million female names)
+* in sum 487 million different region-sensitive names (108 million male names, 379 million female names)
 * addresses and its geocoordinates (latitude & longitude) for 31 countries
 * local telephone numbers
 * national identification numbers
@@ -149,76 +163,18 @@ For SNPs:
 | ALT | String | A  |
 
 
-
-## Distributions
-
-![alt tag](docs/Age_distribution.png?raw=true)
-![alt tag](docs/Age_plain_distribution.png?raw=true)
-![alt tag](docs/Birthday_distribution.png?raw=true)
-![alt tag](docs/Birthday_plain_distribution.png?raw=true)
-![alt tag](docs/BloodType_distribution.png?raw=true)
-![alt tag](docs/BloodType_plain_distribution.png?raw=true)
-![alt tag](docs/Centimeters_distribution.png?raw=true)
-![alt tag](docs/Centimeters_plain_distribution.png?raw=true)
-![alt tag](docs/City_distribution.png?raw=true)
-![alt tag](docs/City_plain_distribution.png?raw=true)
-![alt tag](docs/Color_distribution.png?raw=true)
-![alt tag](docs/Color_plain_distribution.png?raw=true)
-![alt tag](docs/Company_distribution.png?raw=true)
-![alt tag](docs/Company_plain_distribution.png?raw=true)
-![alt tag](docs/Country_distribution.png?raw=true)
-![alt tag](docs/Country_plain_distribution.png?raw=true)
-![alt tag](docs/disease_distribution.png?raw=true)
-![alt tag](docs/drug_distribution.png?raw=true)
-![alt tag](docs/EmailAddress_distribution.png?raw=true)
-![alt tag](docs/EmailAddress_plain_distribution.png?raw=true)
-![alt tag](docs/Gender_distribution.png?raw=true)
-![alt tag](docs/Gender_plain_distribution.png?raw=true)
-![alt tag](docs/gen_distribution.png?raw=true)
-![alt tag](docs/GivenName_distribution.png?raw=true)
-![alt tag](docs/GivenName_plain_distribution.png?raw=true)
-![alt tag](docs/Kilograms_distribution.png?raw=true)
-![alt tag](docs/Kilograms_plain_distribution.png?raw=true)
-![alt tag](docs/NameSet_distribution.png?raw=true)
-![alt tag](docs/NameSet_plain_distribution.png?raw=true)
-![alt tag](docs/NationalID_distribution.png?raw=true)
-![alt tag](docs/NationalID_plain_distribution.png?raw=true)
-![alt tag](docs/Occupation_distribution.png?raw=true)
-![alt tag](docs/Occupation_plain_distribution.png?raw=true)
-![alt tag](docs/Password_distribution.png?raw=true)
-![alt tag](docs/Password_plain_distribution.png?raw=true)
-![alt tag](docs/snp_distribution.png?raw=true)
-![alt tag](docs/State_distribution.png?raw=true)
-![alt tag](docs/StateFull_distribution.png?raw=true)
-![alt tag](docs/StateFull_plain_distribution.png?raw=true)
-![alt tag](docs/State_plain_distribution.png?raw=true)
-![alt tag](docs/StreetAddress_distribution.png?raw=true)
-![alt tag](docs/StreetAddress_plain_distribution.png?raw=true)
-![alt tag](docs/Surname_distribution.png?raw=true)
-![alt tag](docs/Surname_plain_distribution.png?raw=true)
-![alt tag](docs/TelephoneCountryCode_distribution.png?raw=true)
-![alt tag](docs/TelephoneCountryCode_plain_distribution.png?raw=true)
-![alt tag](docs/TelephoneNumber_distribution.png?raw=true)
-![alt tag](docs/TelephoneNumber_plain_distribution.png?raw=true)
-![alt tag](docs/Title_distribution.png?raw=true)
-![alt tag](docs/Title_plain_distribution.png?raw=true)
-![alt tag](docs/Username_distribution.png?raw=true)
-![alt tag](docs/Username_plain_distribution.png?raw=true)
-![alt tag](docs/ZipCode_distribution.png?raw=true)
-![alt tag](docs/ZipCode_plain_distribution.png?raw=true)
-
-
 #### Sources
 
 Disease relations:
 * http://disease-connect.org/
 * [Suthram S, Dudley JT, Chiang AP, Chen R, Hastie TJ, Butte AJ: Network-based elucidation of human disease similarities reveals common functional modules enriched for pluripotent drug targets. PLoS Comput Biol 2010, 6:1–10.](http://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1000662)
 * http://www.disgenet.org/web/DisGeNET/menu/downloads#r
+
 Blood type distribution per country:
 * https://en.wikipedia.org/wiki/Blood_type_distribution_by_country
 
 Diseases:
-* Rzhetsky, A., Wajngurt, D., Park, N., & Zheng, T. (2007). Probing genetic overlap among complex human phenotypes. Proceedings of the National Academy of Sciences of the United States of America, 104, 11694–11699. doi:10.1073/pnas.0704820104](http://www.pnas.org/content/104/28/11694.full.pdf)
+* [Rzhetsky, A., Wajngurt, D., Park, N., & Zheng, T. (2007). Probing genetic overlap among complex human phenotypes. Proceedings of the National Academy of Sciences of the United States of America, 104, 11694–11699. doi:10.1073/pnas.0704820104](http://www.pnas.org/content/104/28/11694.full.pdf)
 * [Supplementary data from the disease network](https://www.nature.com/articles/ncomms5212)
 
 Drugs:
@@ -235,6 +191,10 @@ A Bundle of disease, SNP and genomic data:
 ICD-9-CM Diagnosis and Procedure Codes:
 * https://www.cms.gov/Medicare/Coding/ICD9ProviderDiagnosticCodes/codes.html
 
+## Composed Data set
+
+A composed data set with 107 columns and nearly 1M rows can be found at [here](https://hpi.framsteg.de/data/epic/MA_enriched_Health_Data.csv.gz).
+
 
 ## Related Links & Other Datasets
 
@@ -246,3 +206,25 @@ Aggregated & statistics:
 * [HHS 2013 Year in Health Data Highlights](https://www.data.gov/health/hhs-2013-year-in-health-data-highlights)
 * [MHEALTH Dataset Data Set](https://archive.ics.uci.edu/ml/datasets/MHEALTH+Dataset)
 * https://hcup-us.ahrq.gov/databases.jsp
+
+
+## Distributions
+
+### Structural Overview
+
+![alt tag](docs/distribution_overview.png?raw=true)
+
+Image Source: http://people.stern.nyu.edu/adamodar/pdfiles/papers/probabilistic.pdf
+
+### Attribute Value Distributions
+
+![alt tag](docs/barplot_BloodType_distribution.png?raw=true)
+![alt tag](docs/barplot_Centimeters_distribution.png)
+![alt tag](docs/barplot_Color_distribution.png?raw=true)
+![alt tag](docs/vioplot_Age_distribution.png?raw=true)
+![alt tag](docs/Density_Rug_Birthday_distribution.png?raw=true)
+![alt tag](docs/Density_Rug_disease_date_0_distribution.png?raw=true)
+![alt tag](docs/Density_Rug_drug_0_distribution.png?raw=true)
+![alt tag](docs/Density_Rug_drug_date_0_distribution.png?raw=true)
+
+more statistics can be found in ```docs/```

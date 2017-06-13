@@ -8,7 +8,8 @@
 #
 #
 ## Load symptoms-DO.tsv Data
-symptoms_DO <- read.table("2_behavior_medical_attribute_values\\Symptoms\\symptoms-DO.tsv", fill = TRUE, sep = '\t', header = TRUE)
+symptoms_DO <- read.table("data\\symptoms-DO.tsv", fill = TRUE, sep = '\t', header = TRUE)
+
 
 #
 #
@@ -16,7 +17,7 @@ symptoms_DO <- read.table("2_behavior_medical_attribute_values\\Symptoms\\sympto
 #
 #
 ## Load drugs.tsv Data
-zz=gzfile('2_behavior_medical_attribute_values\\Drugs\\drugs.tsv.gz','rt')  
+zz=gzfile('data\\drugs.tsv.gz','rt')  
 drugs <- read.table(zz,sep = "\t", fill = TRUE, header=TRUE, na.strings=c(""))
 
 #
@@ -25,7 +26,7 @@ drugs <- read.table(zz,sep = "\t", fill = TRUE, header=TRUE, na.strings=c(""))
 #
 #
 ## Load snps.tsv Data
-zz=gzfile('2_behavior_medical_attribute_values\\SNPs\\snps.tsv.gz','rt')  
+zz=gzfile('data\\snps.tsv.gz','rt')  
 snps <- read.table(zz,sep = "\t", fill = TRUE, header=TRUE, na.strings=c(""))
 
 gens<- snps
@@ -37,7 +38,7 @@ gens<- snps
 #
 #user_data <- read.csv("data\\user_data.csv",  sep = ",", header=TRUE, na.strings=c(""))
 
-zz=gzfile('1_CRM_attribute_values\\user_data.csv.gz','rt')  
+zz=gzfile('data\\user_data.csv.gz','rt')  
 dat=read.csv(zz,sep = ",", header=TRUE, na.strings=c(""))#, nrows=100000)
 
 relevant_columns <-  c("GivenName","Surname","Gender","NameSet","Title","StreetAddress","City","State",
@@ -70,16 +71,43 @@ if (!require("gtools")) {
 }
 library(gtools)
 
+if (!require("fitdistrplus")) {
+  install.packages('fitdistrplus', dependencies=TRUE)
+}
+library(fitdistrplus)
+
+if (!require("MASS")) {
+  install.packages('MASS', dependencies=TRUE)
+}
+library(MASS)
 
 ## parrallel settings
 no_cores <- detectCores() - 1 # Calculate the number of cores
 registerDoParallel(no_cores)
 
 ## vars
-max_disease=10
+max_disease=20
 max_drug=10
 max_snp=10
 max_gen=10
+
+#
+#
+##################################### Analysing for best fitting Distribution  ##################################### 
+#
+#
+
+# let's compute some fits...
+fits <- list(
+  no = fitdistr(dat,"normal"),
+  lo = fitdistr(dat,"logistic"),
+  ca = fitdistr(dat,"cauchy"),
+  we = fitdistr(dat, "weibull")
+)
+
+# get the logliks for each model...
+sapply(fits, function(i) i$loglik)
+
 #
 #
 ##################################### Creating Attribute Distribution  ##################################### 
@@ -127,7 +155,7 @@ drugs$id <- unlist(seq.int(nrow(drugs)))
 snps$id <- unlist(seq.int(nrow(snps)))
 gens$id <- unlist(seq.int(nrow(gens)))
 
-#foreach(disease_counter=1:max_disease) %dopar% {
+##foreach(disease_counter=1:max_disease) %dopar% {
 disease_counter=0
 while(disease_counter < max_disease) {
   attribute_disease <- paste("disease", disease_counter, sep="_")
@@ -137,7 +165,10 @@ while(disease_counter < max_disease) {
   #user_data[attribute_disease] <- sample_n(symptoms_DO, nrow(user_data))$doid_code
   
   ## choose with normal distribution
-  user_data[attribute_disease] <- subset(symptoms_DO, disease_distribution_rounded %in% symptoms_DO$id)$doid_code
+  #user_data[attribute_disease] <- subset(symptoms_DO, disease_distribution_rounded %in% symptoms_DO$id)$doid_code
+  disease_distribution_rounded_factor <- as.factor(disease_distribution_rounded)
+  symptoms_DO_factor <- symptoms_DO$doid_code
+  user_data[attribute_disease] <- symptoms_DO_factor[disease_distribution_rounded_factor]
   
   attribute_disease_date <- paste("disease_date", disease_counter, sep="_")
   user_data[attribute_disease_date] <- sample(seq(as.Date("2000-04-14"), Sys.Date(), by="day"), nrow(user_data), replace = TRUE )
@@ -153,7 +184,10 @@ while(drug_counter < max_drug) {
   #user_data[attribute_drug] <- drugs[sample(nrow(drugs), nrow(user_data), replace = TRUE  ), ]$PRODUCTNDC
   
   ## choose with normal distribution
-  user_data[attribute_drug] <- subset(drugs, drug_distribution_rounded %in% drugs$id )$PRODUCTNDC
+  #user_data[attribute_drug] <- subset(drugs, drug_distribution_rounded %in% drugs$id )$PRODUCTNDC
+  drug_distribution_rounded_factor <- as.factor(drug_distribution_rounded)
+  drugs_factor <- drugs$PRODUCTNDC
+  user_data[attribute_drug] <- drugs_factor[drug_distribution_rounded_factor]
   
   attribute_drug_date <- paste("drug_date", drug_counter, sep="_")
   user_data[attribute_drug_date] <- sample(seq(as.Date("2000-04-14"), Sys.Date(), by="day"), nrow(user_data), replace = TRUE )
@@ -167,7 +201,11 @@ while(snp_counter < max_snp) {
   attribute_snp <- paste("snp", snp_counter, sep="_")
   
   ## choose with normal distribution
-  user_data[attribute_snp] <- subset(snps, snp_distribution_rounded %in% snps$id )$snpId
+  #user_data[attribute_snp] <- subset(snps, snp_distribution_rounded %in% snps$id )$snpId
+  snp_distribution_rounded_factor <- as.factor(snp_distribution_rounded)
+  snps_factor <- snps$snpId
+  user_data[attribute_snp] <- snps_factor[snp_distribution_rounded_factor]
+  
   snp_counter <- sum(snp_counter, 1)
 }
 
@@ -177,10 +215,13 @@ while(gen_counter < max_gen) {
   attribute_gen <- paste("gen", gen_counter, sep="_")
   
   ## choose with normal distribution
-  user_data[attribute_gen] <- subset(gens, gen_distribution_rounded %in% gens$id )$geneId
+  #user_data[attribute_gen] <- subset(gens, gen_distribution_rounded %in% gens$id )$geneId
+  gen_distribution_rounded_factor <- as.factor(gen_distribution_rounded)
+  gens_factor <- gens$geneId
+  user_data[attribute_gen] <- gens_factor[gen_distribution_rounded_factor]
+  
   gen_counter <- sum(gen_counter, 1)
 }
-
 stopImplicitCluster()
 
 
