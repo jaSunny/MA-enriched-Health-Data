@@ -1,0 +1,2 @@
+# Overview of JSON based SNPs
+ftp://ftp.ncbi.nih.gov/snp/latest_release/JSON
